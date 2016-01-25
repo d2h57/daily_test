@@ -1,0 +1,42 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    testCompile 'junit:junit:4.11'
+   	compile 'io.netty:netty-all:4.0.27.Final'
+   	compile 'org.apache.httpcomponents:httpclient:4.2.5'
+   	compile 'com.alibaba:fastjson:1.2.6'
+   	compile 'com.lmax:disruptor:3.3.2'
+    compile fileTree(dir: 'lib', include: ['*.jar'])
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+    }
+    test {
+        java {
+            srcDir 'src/test/java'
+        }
+    }
+}
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.newsmy.car.jtt808.server.app.SpringNettyServer'
+    }
+}
+
+
+task copyJars(type: Copy) {
+    from configurations.runtime
+    into 'depends'
+}
