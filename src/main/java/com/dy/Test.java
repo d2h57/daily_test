@@ -3,8 +3,11 @@ package com.dy;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -123,8 +126,16 @@ public class Test {
 		/*Thread t = new Thread(new LocalRunnable());
 		t.start();*/
 	
-		String info = "{\"item\":{\"info\":\"here\"},\"result\":0}";
+		/*String info = "{\"item\":{\"info\":\"here\"},\"result\":0}";
 		Message<Item> message = (Message<Item>)JSON.parseObject(info,Message.class,null);
-		System.out.println(message);
+		System.out.println(message);*/
+		
+		/*System.out.println(System.currentTimeMillis());*/
+		
+		Date date = new Date();
+		date.setTime(1453683936*1000L);
+		
+		System.out.println(date.toString());
+		
 	}
 }
