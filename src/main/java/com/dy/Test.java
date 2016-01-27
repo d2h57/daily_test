@@ -1,13 +1,18 @@
 package com.dy;
 
+import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.net.URLEncoder;
+import java.security.AccessController;
 import java.security.MessageDigest;
+import java.security.PrivilegedExceptionAction;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
+
+import sun.misc.Unsafe;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -31,6 +36,33 @@ public class Test {
 		
 	}
 	
+	private static final Unsafe THE_UNSAFE;
+    static
+    {
+        try
+        {
+            final PrivilegedExceptionAction<Unsafe> action = new PrivilegedExceptionAction<Unsafe>()
+            {
+                public Unsafe run() throws Exception
+                {
+                    Field theUnsafe = Unsafe.class.getDeclaredField("theUnsafe");
+                    theUnsafe.setAccessible(true);
+                    return (Unsafe) theUnsafe.get(null);
+                }
+            };
+
+            THE_UNSAFE = AccessController.doPrivileged(action);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException("Unable to load unsafe", e);
+        }
+    }
+    
+    static Unsafe getUnsafe(){
+    	return THE_UNSAFE;
+    }
+    
 	static class T{
 		private String time;
 		private byte event;
@@ -132,10 +164,34 @@ public class Test {
 		
 		/*System.out.println(System.currentTimeMillis());*/
 		
-		Date date = new Date();
+		/*Date date = new Date();
 		date.setTime(1453683936*1000L);
+		System.out.println(date.toString());*/
 		
-		System.out.println(date.toString());
+		/*Item[] items = new Item[1];
+		items[0] = new Item();
+		items[0].setInfo("12232");
 		
+		for(int i = 0;i<items.length;++i){
+			System.out.println(items[i].getInfo());
+		}*/
+	
+		/*int bufferSize = 15;
+		System.out.println(32&bufferSize);*/
+	    
+		Unsafe unsafe = getUnsafe();
+		/*int scale = unsafe.arrayIndexScale(int[].class);
+		int base = unsafe.arrayBaseOffset(int[].class);
+		
+		int[] nums = new int[10];
+		for(int i = 0;i<nums.length;++i){
+			unsafe.putOrderedInt(nums, i*scale + base, i);
+		}
+		
+		for(int i=0;i<nums.length;++i){
+			System.out.println(nums[i]);
+		}*/
+		
+		System.out.println(unsafe.arrayIndexScale(Item[].class));
 	}
 }
