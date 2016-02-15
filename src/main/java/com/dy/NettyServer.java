@@ -9,6 +9,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -56,7 +57,7 @@ public class NettyServer {
 			System.out.println("msg from client:"+info);
 			
 			bb.clear();
-			bb.writeBytes(("hello:"+info+"\r\n").getBytes());
+			bb.writeBytes(("hello:"+info+"\n\r").getBytes());
 			ctx.writeAndFlush(bb).sync();
 		}
 		
@@ -66,6 +67,10 @@ public class NettyServer {
 			System.out.println("exception happend!");
 	        ctx.close();
 	    }
+	}
+	
+	static class EchoOutboundHanlder extends ChannelOutboundHandlerAdapter{
+		
 	}
 	
 	public static void main(String[] args){
