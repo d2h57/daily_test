@@ -6,11 +6,14 @@ import java.net.URLEncoder;
 import java.security.AccessController;
 import java.security.MessageDigest;
 import java.security.PrivilegedExceptionAction;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import sun.misc.Unsafe;
 
@@ -25,7 +28,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 public class Test {
 	private final static int threadNum = 0;
 	
-	static class TestHandle extends SimpleChannelInboundHandler{
+	private final class TestHandle extends SimpleChannelInboundHandler{
 
 		@Override
 		protected void channelRead0(ChannelHandlerContext ctx, Object msg)
@@ -141,7 +144,7 @@ public class Test {
 	
 	public static void main(String[] args) throws Exception {
 		/*md5测试*/
-		/*String password = "qwerty";
+		/*String password = "mygod123456";
         MessageDigest md5Digest = MessageDigest.getInstance("MD5");
         md5Digest.update(password.getBytes(), 0, password.length());
         String md5Pass = (new BigInteger(1, md5Digest.digest())).toString(16);
@@ -179,8 +182,9 @@ public class Test {
 		/*int bufferSize = 15;
 		System.out.println(32&bufferSize);*/
 	    
-		Unsafe unsafe = getUnsafe();
-		/*int scale = unsafe.arrayIndexScale(int[].class);
+		//Unsafe测试
+		/*Unsafe unsafe = getUnsafe();
+		int scale = unsafe.arrayIndexScale(int[].class);
 		int base = unsafe.arrayBaseOffset(int[].class);
 		
 		int[] nums = new int[10];
@@ -190,8 +194,68 @@ public class Test {
 		
 		for(int i=0;i<nums.length;++i){
 			System.out.println(nums[i]);
-		}*/
+		}
+		
 		
 		System.out.println(unsafe.arrayIndexScale(Item[].class));
+		AtomicInteger ai = new AtomicInteger();*/
+		
+		/*String retePlanInfo = "产品体验包-TrialKit-50MB-30SMS-3mo";
+		String totalTraffic = "";
+		int index = 0;
+		int fromIndex = 0;
+		while((index = retePlanInfo.indexOf('-',fromIndex)) != -1){
+			totalTraffic = retePlanInfo.substring(fromIndex,index);
+			if(totalTraffic.endsWith("MB") || totalTraffic.endsWith("GB")){
+				break;
+			}
+			
+			fromIndex = index+1;
+		}
+		
+		System.out.println("totalTraffic:"+totalTraffic);
+		
+		String trafficRemaining = totalTraffic;
+		double trafficUsed = 0;
+		
+		String remaining = "";
+		if(null != remaining && remaining.length() > 0){
+			//dataRemaining单位为MB
+			trafficRemaining = remaining + "MB";
+			
+			System.out.println("trafficRemaining:"+trafficRemaining);
+			double dataRemaining = Double.valueOf(remaining).doubleValue();
+			if(totalTraffic.endsWith("MB")){
+				trafficUsed = Integer.valueOf(totalTraffic.substring(0,totalTraffic.length()-2)).intValue() - dataRemaining;
+			}else{
+				trafficUsed = Integer.valueOf(totalTraffic.substring(0,totalTraffic.length()-2)).intValue()*1024 - dataRemaining;
+			}
+			
+			if(trafficUsed > 1024){
+				DecimalFormat dcmFmt = new DecimalFormat("0.00");
+				System.out.println("trafficUsed:"+dcmFmt.format(trafficUsed / 1024)+"GB");
+			}else{
+				System.out.println("trafficUsed:"+trafficUsed+"MB");
+			}
+		}else{
+			System.out.println("trafficRemaining:"+trafficRemaining);
+			System.out.println("trafficUsed:"+trafficUsed+"MB");
+		}
+		
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		System.out.println(df.format(new Date()));
+		//df.setTimeZone(TimeZone.getTimeZone("UTC"));
+		Date date = df.parse(df.format(new Date()));
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		System.out.println(format.format(date));
+		*/
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(format.parse("2016-01-31 11:08:17"));
+		cal.add(Calendar.MONTH, 1);
+		
+		System.out.println(format.format(cal.getTime()));
 	}
 }
