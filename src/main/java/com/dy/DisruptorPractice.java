@@ -100,26 +100,32 @@ public class DisruptorPractice {
 	}
 	
 	public static void main(String[] args){
-		Disruptor<LocalEvent> disruptor = new Disruptor<LocalEvent>(new LocalEventFactory(),16,Executors.newCachedThreadPool(),
+		/*Disruptor<LocalEvent> disruptor = new Disruptor<LocalEvent>(new LocalEventFactory(),16,Executors.newCachedThreadPool(),
+				ProducerType.MULTI,new YieldingWaitStrategy());*/
+		
+		Disruptor<LocalEvent> disruptor = new Disruptor<LocalEvent>(new LocalEventFactory(),16,Executors.newFixedThreadPool(1),
 				ProducerType.MULTI,new YieldingWaitStrategy());
-//		disruptor.handleEventsWith(new LocalEventHandler(),new LocalEventHandler(),new LocalEventHandler());
-		LocalWorkHandler handler = new LocalWorkHandler();
-		disruptor.handleEventsWithWorkerPool(handler,handler,handler);
+		
+		//采用EventHandler的话,一个任务会被多个消费者处理
+		disruptor.handleEventsWith(new LocalEventHandler(),new LocalEventHandler()/*,new LocalEventHandler()*/);
+		
+		/*LocalWorkHandler handler = new LocalWorkHandler();
+		disruptor.handleEventsWithWorkerPool(handler,handler,handler);*/
 		
 		RingBuffer<LocalEvent> rb = disruptor.start();
 		
 		EventPublishRunnable eventPublish = new EventPublishRunnable(rb);
 		Thread evnentPublish1 = new Thread(eventPublish);
-		Thread evnentPublish2 = new Thread(eventPublish);
-		Thread evnentPublish3 = new Thread(eventPublish);
+		/*Thread evnentPublish2 = new Thread(eventPublish);*/
+		/*Thread evnentPublish3 = new Thread(eventPublish);*/
 		evnentPublish1.start();
-		evnentPublish2.start();
-		evnentPublish3.start();
+		/*evnentPublish2.start();*/
+		/*evnentPublish3.start();*/
 		
 		try{
 			evnentPublish1.join();
-			evnentPublish2.join();
-			evnentPublish3.join();
+/*			evnentPublish2.join();*/
+			/*evnentPublish3.join();*/
 		}catch(InterruptedException e){
 			e.printStackTrace();
 		}
