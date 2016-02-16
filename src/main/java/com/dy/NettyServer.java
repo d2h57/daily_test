@@ -57,7 +57,7 @@ public class NettyServer {
 			System.out.println("msg from client:"+info);
 			
 			bb.clear();
-			bb.writeBytes(("hello:"+info+"\n\r").getBytes());
+			bb.writeBytes(("hello:"+info).getBytes());
 			ctx.writeAndFlush(bb).sync();
 		}
 		
@@ -65,7 +65,7 @@ public class NettyServer {
 		public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 	            throws Exception {
 			System.out.println("exception happend!");
-	        ctx.close();
+	        ctx.close().syncUninterruptibly();
 	    }
 	}
 	
