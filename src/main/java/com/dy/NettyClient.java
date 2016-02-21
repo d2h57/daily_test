@@ -1,5 +1,19 @@
 package com.dy;
 
+import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.ByteBufUtil;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.nio.NioEventLoopGroup;
+//import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -12,10 +26,15 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 public class NettyClient {
-	/*static class EchoClientHandler extends ChannelInboundHandlerAdapter{
+	static class EchoClientHandler extends ChannelInboundHandlerAdapter{
 		@Override
 	    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-			//ctx.writeAndFlush("this is dengyong!");
+			System.out.println("channelActive");
+			
+			String info = "this is dengyong!";
+			ByteBuf bb = ByteBufAllocator.DEFAULT.buffer();
+			bb.writeBytes(info.getBytes());
+			ctx.writeAndFlush(bb);
 	    }
 		
 		@Override
@@ -35,9 +54,10 @@ public class NettyClient {
 	            throws Exception {
 	        ctx.close();
 	    }
-	}*/
+	}
 	
 	public static void main(String[] args) throws Exception {
+		//使用Bootstrap编写客户端
 		/*Bootstrap  clientBootstrap = new Bootstrap();
 		NioEventLoopGroup workGroup = new NioEventLoopGroup();
 		try{
@@ -52,8 +72,6 @@ public class NettyClient {
 			});
 		
 		Channel channel= clientBootstrap.connect("localhost", 62000).sync().channel();
-		channel.write("this is dengyong!");
-		Thread.sleep(1000*60*3);
 		channel.closeFuture().sync();
 		}catch(InterruptedException e){
 			e.printStackTrace();
@@ -61,19 +79,21 @@ public class NettyClient {
 			workGroup.shutdownGracefully();
 		}*/
 		
-		/*SocketChannel channel = null;
+		
+		SocketChannel channel = null;
 		try{
 			InetSocketAddress address = new InetSocketAddress("localhost",62000);
 			channel = SocketChannel.open(address);
 			String info = "this is dengyong!";
 			ByteBuffer bb = ByteBuffer.allocate(1024);
 			bb.put(info.getBytes());
+			bb.flip();
 			channel.write(bb);
 			System.out.println("send message finish!");
 			
 			bb.clear();
-			int num = channel.read(bb);
-			System.out.println("receive from server:"+new String(bb.array(),"UTF-8"));
+			channel.read(bb);
+			System.out.println("receive from server:"+new String(bb.array()));
 			
 			channel.close();
 			System.out.println("close client channel!");
@@ -87,10 +107,10 @@ public class NettyClient {
 					e.printStackTrace();
 				}
 			}
-		}*/
+		}
 		
-		
-		Socket socket = new Socket();
+		//使用socket编写客户端,注意使socket.readLine()接收数据时服务端返回时要记得带上\r\n
+		/*Socket socket = new Socket();
 		BufferedWriter writer = null;
 		BufferedReader reader = null;
 		
@@ -105,7 +125,9 @@ public class NettyClient {
 			System.out.println("send message finish!");
 			
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			System.out.println("receive from server:"+reader.readLine());
+			if((info = reader.readLine()) != null){
+				System.out.println("receive from server:"+info);
+			}
 			
 			System.out.println("close client channel!");
 			
@@ -118,9 +140,6 @@ public class NettyClient {
 			if(null != reader){
 				reader.close();
 			}
-			if(!socket.isClosed()){
-				socket.close();
-			}
-		}
+		}*/
 	}
 }
