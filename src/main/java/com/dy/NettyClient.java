@@ -11,7 +11,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
-//import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.io.BufferedReader;
@@ -23,7 +23,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
+//import java.nio.channels.SocketChannel;
 
 public class NettyClient {
 	static class EchoClientHandler extends ChannelInboundHandlerAdapter{
@@ -58,7 +58,7 @@ public class NettyClient {
 	
 	public static void main(String[] args) throws Exception {
 		//使用Bootstrap编写客户端
-		/*Bootstrap  clientBootstrap = new Bootstrap();
+		Bootstrap  clientBootstrap = new Bootstrap();
 		NioEventLoopGroup workGroup = new NioEventLoopGroup();
 		try{
 			clientBootstrap.group(workGroup).option(ChannelOption.TCP_NODELAY, true)
@@ -72,15 +72,16 @@ public class NettyClient {
 			});
 		
 		Channel channel= clientBootstrap.connect("localhost", 62000).sync().channel();
-		channel.closeFuture().sync();
 		}catch(InterruptedException e){
 			e.printStackTrace();
 		}finally{
+			Thread.sleep(20*1000);
 			workGroup.shutdownGracefully();
-		}*/
+		}
 		
 		
-		SocketChannel channel = null;
+		//使用nio编写客户端
+		/*SocketChannel channel = null;
 		try{
 			InetSocketAddress address = new InetSocketAddress("localhost",62000);
 			channel = SocketChannel.open(address);
@@ -93,7 +94,10 @@ public class NettyClient {
 			
 			bb.clear();
 			channel.read(bb);
-			System.out.println("receive from server:"+new String(bb.array()));
+			byte[] content = new byte[bb.position()];
+			bb.flip();
+			bb.get(content);
+			System.out.println("receive from server:"+new String(content));
 			
 			channel.close();
 			System.out.println("close client channel!");
@@ -107,7 +111,7 @@ public class NettyClient {
 					e.printStackTrace();
 				}
 			}
-		}
+		}*/
 		
 		//使用socket编写客户端,注意使socket.readLine()接收数据时服务端返回时要记得带上\r\n
 		/*Socket socket = new Socket();

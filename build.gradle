@@ -3,6 +3,7 @@ apply plugin: 'eclipse'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 
@@ -12,6 +13,9 @@ dependencies {
    	compile 'org.apache.httpcomponents:httpclient:4.2.5'
    	compile 'com.alibaba:fastjson:1.2.6'
    	compile 'com.lmax:disruptor:3.3.2'
+   	compile 'org.slf4j:slf4j-api:1.6.1'
+    compile 'org.slf4j:slf4j-log4j12:1.6.1'
+    compile 'cn.jpush.api:jpush-client:3.2.6'
     compile fileTree(dir: 'lib', include: ['*.jar'])
 }
 
@@ -39,4 +43,8 @@ jar {
 task copyJars(type: Copy) {
     from configurations.runtime
     into 'depends'
+}
+
+tasks.withType(JavaCompile) {  
+    options.encoding = "UTF-8"  
 }

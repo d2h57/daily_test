@@ -16,6 +16,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.util.internal.OneTimeTask;
 
 public class NettyServer {
 	static class Message{
@@ -59,13 +60,22 @@ public class NettyServer {
 			bb.clear();
 			bb.writeBytes(("hello:"+info).getBytes());
 			ctx.writeAndFlush(bb).sync();
+			
+			//对于一些耗时的操作,可以将任务添加到NioEventLoop的任务队列中,由NioEventLoop进行统一调度处理
+			ctx.executor().execute(new OneTimeTask(){
+				@Override
+				public void run(){
+					for(int i = 0;i<10000;++i){
+						System.out.println("current i:"+i);
+					}
+				}
+			});
 		}
 		
 		@Override
 		public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 	            throws Exception {
 			System.out.println("exception happend!");
-	        ctx.close().syncUninterruptibly();
 	    }
 	}
 	

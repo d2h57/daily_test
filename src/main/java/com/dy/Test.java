@@ -3,6 +3,7 @@ package com.dy;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.net.URLEncoder;
+import java.nio.ByteBuffer;
 import java.security.AccessController;
 import java.security.MessageDigest;
 import java.security.PrivilegedExceptionAction;
@@ -15,10 +16,12 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.json.JSONObject;
+
 import sun.misc.Unsafe;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+//import com.alibaba.fastjson.JSON;
+//import com.alibaba.fastjson.JSONObject;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelHandlerContext;
@@ -167,6 +170,7 @@ public class Test {
 		
 		/*System.out.println(System.currentTimeMillis());*/
 		
+		//时间换算
 		/*Date date = new Date();
 		date.setTime(1453683936*1000L);
 		System.out.println(date.toString());*/
@@ -251,11 +255,30 @@ public class Test {
 		System.out.println(format.format(date));
 		*/
 		
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(format.parse("2016-01-31 11:08:17"));
-		cal.add(Calendar.MONTH, 1);
+		//ByteBuffer使用测试
+		/*ByteBuffer bb = ByteBuffer.allocate(100);
+		String info = "test bytebuffer by dengyong";
+		bb.put(info.getBytes());
 		
-		System.out.println(format.format(cal.getTime()));
+		bb.clear();
+		bb.put(new String("this is ok\r\n").getBytes());
+		System.out.println("offset:"+bb.position());
+		byte[] val = new byte[bb.position()];
+		bb.flip();
+		bb.get(val);
+		System.out.println(new String(val));*/
+		
+		//volatile测试
+		
+		/*JSONObject json = new JSONObject();
+		json.put("k1", "v1");
+		json.put("k2", "v2");
+		
+		json.opt("k3");
+		System.out.println(json.toString());*/
+		
+		String info = "123456789";
+		byte[] result = info.getBytes();
+		System.out.println(result.length);
 	}
 }
