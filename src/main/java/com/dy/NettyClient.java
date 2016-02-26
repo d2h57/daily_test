@@ -121,7 +121,7 @@ public class NettyClient {
 		try{
 			SocketAddress address = new InetSocketAddress("localhost",62000);
 			socket.connect(address);
-			
+			System.out.println("finish connect to server");
 			String info = "this is dengyong!";
 			writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 			writer.write(info);
@@ -134,6 +134,7 @@ public class NettyClient {
 			}
 			
 			System.out.println("close client channel!");
+			
 		}catch(IOException e){
 			e.printStackTrace();
 		}finally{
