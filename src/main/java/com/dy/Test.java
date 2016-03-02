@@ -13,10 +13,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ServiceLoader;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.json.JSONObject;
+
+import com.dy.service.IAction;
 
 import sun.misc.Unsafe;
 
@@ -277,8 +280,10 @@ public class Test {
 		json.opt("k3");
 		System.out.println(json.toString());*/
 		
-		String info = "123456789";
-		byte[] result = info.getBytes();
-		System.out.println(result.length);
+		//SPI 测试 jdk内置的一种服务提供发现机制
+		ServiceLoader<IAction> loaders = ServiceLoader.load(IAction.class);
+		for(IAction action : loaders){
+			action.action();
+		}
 	}
 }
