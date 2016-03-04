@@ -12,8 +12,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ServiceLoader;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -125,6 +129,10 @@ public class Test {
 		public String toString(){
 			return info;
 		}
+		
+		public void finalize(){
+			System.out.println("finalize");
+		}
 	}
 	
 	static class Message<T>{
@@ -175,7 +183,7 @@ public class Test {
 		
 		//时间换算
 		/*Date date = new Date();
-		date.setTime(1453683936*1000L);
+		date.setTime(1457048647*1000L);
 		System.out.println(date.toString());*/
 		
 		/*Item[] items = new Item[1];
@@ -278,12 +286,38 @@ public class Test {
 		json.put("k2", "v2");
 		
 		json.opt("k3");
-		System.out.println(json.toString());*/
+		System.out.println(json.toString());
+		
+		JSONObject other = new JSONObject(json.toString());
+		System.out.println(other.toString());*/
 		
 		//SPI 测试 jdk内置的一种服务提供发现机制
-		ServiceLoader<IAction> loaders = ServiceLoader.load(IAction.class);
+		/*ServiceLoader<IAction> loaders = ServiceLoader.load(IAction.class);
 		for(IAction action : loaders){
 			action.action();
+		}*/
+		
+		
+		//采用Iterator遍历,屏蔽数据结构细节,统一操作
+		/*Set<String> ss = new HashSet<String>();
+		ss.add("111");
+		ss.add("222");
+		
+		for(String str : ss){
+			System.out.println(str);
 		}
+		
+		Iterator<String> it = ss.iterator();
+		while(it.hasNext()){
+			System.out.println(it.next());
+		}
+		
+		Map<String,String> sm = new HashMap<String,String>();
+		sm.put("k1", "v1");
+		sm.put("k2", "v2");
+		
+		for(Entry<String,String> et : sm.entrySet()){
+			System.out.println(et.getKey()+":"+et.getValue());
+		}*/
 	}
 }

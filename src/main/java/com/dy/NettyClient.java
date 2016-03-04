@@ -25,6 +25,7 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 //import java.nio.channels.SocketChannel;
 
+@Load
 public class NettyClient {
 	static class EchoClientHandler extends ChannelInboundHandlerAdapter{
 		@Override
