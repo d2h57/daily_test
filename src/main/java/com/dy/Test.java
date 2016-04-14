@@ -1,5 +1,11 @@
 package com.dy;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.net.URLEncoder;
@@ -14,6 +20,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ServiceLoader;
@@ -21,8 +29,16 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.json.JSONObject;
+//import org.json.JSONObject;
 
+
+
+
+import javax.swing.Box.Filler;
+
+import org.apache.commons.codec.binary.Base64;
+
+import com.alibaba.fastjson.JSONObject;
 import com.dy.service.IAction;
 
 import sun.misc.Unsafe;
@@ -158,7 +174,7 @@ public class Test {
 	
 	public static void main(String[] args) throws Exception {
 		/*md5测试*/
-		/*String password = "mygod123456";
+		/*String password = "Newsmy159357newsmy";
         MessageDigest md5Digest = MessageDigest.getInstance("MD5");
         md5Digest.update(password.getBytes(), 0, password.length());
         String md5Pass = (new BigInteger(1, md5Digest.digest())).toString(16);
@@ -183,8 +199,28 @@ public class Test {
 		
 		//时间换算
 		/*Date date = new Date();
-		date.setTime(1457048647*1000L);
-		System.out.println(date.toString());*/
+		date.setTime(1460401260*1000L);
+		System.out.println(date.toString());
+		
+		//1430413200052
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR,2016);
+		cal.set(Calendar.MONTH, 3);
+		cal.set(Calendar.DATE, 12);
+		cal.set(Calendar.HOUR_OF_DAY,3);
+		cal.set(Calendar.MINUTE,2);
+		cal.set(Calendar.SECOND,0);
+		System.out.println(cal.getTimeInMillis());*/
+		
+		/*Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(1457625600*1000L);
+        
+        StringBuilder tableName = new StringBuilder();
+        
+        tableName.append(cal.get(Calendar.YEAR)).append(cal.get(Calendar.MONTH)+1 < 10 ? "0"+(cal.get(Calendar.MONTH)+1) : cal.get(Calendar.MONTH)+1);
+		System.out.println(tableName.toString());*/
+		
 		
 		/*Item[] items = new Item[1];
 		items[0] = new Item();
@@ -319,5 +355,76 @@ public class Test {
 		for(Entry<String,String> et : sm.entrySet()){
 			System.out.println(et.getKey()+":"+et.getValue());
 		}*/
+		
+		/*CaptchaStore4SMS.instance().saveCaptcha("12345", "18908464499");
+		Thread.currentThread().sleep(20);
+		System.out.println(CaptchaStore4SMS.instance().checkCaptcha4Account("12345", "18908464499"));*/
+		
+		
+//		System.out.println(String.format("您的验证码为：%d，5分钟内有效，谢谢！【纽曼科技】",12));
+		
+		/*Map<String,String> map = new HashMap<String,String>();
+		map.put("k1", "v1");
+		map.put("k2", "v2");
+		JSONObject obj = (JSONObject)JSONObject.toJSON(map);
+		
+		
+		Item t = new Item();
+		t.setInfo("nihao");
+		
+		JSONObject obj = (JSONObject)JSONObject.toJSON(t);
+		JSONObject result = new JSONObject();
+		
+		result.putAll(obj);
+		System.out.println(result.toString());*/
+
+		//测试对图片进行base64编解码
+		/*FileInputStream is = new FileInputStream(new File("e:\\11.jpg"));
+		int size = is.available();
+		byte[] content = new byte[size];
+		is.read(content, 0, size);
+		is.close();
+		
+		String encodeStr = Base64.encodeBase64String(content);
+		System.out.println("base64 encode result:"+encodeStr);
+		
+		byte[] newImage = Base64.decodeBase64(encodeStr);
+		
+		FileOutputStream out = new FileOutputStream(new File("e:\\12.jpg"));
+		out.write(newImage);
+		out.close();*/
+		
+		/*List<Integer> values = new LinkedList<Integer>();
+		
+		values.add(1);
+		values.add(2);
+		values.add(3);
+		values.add(4);
+		values.add(5);
+		values.add(6);
+		values.add(7);
+		values.add(8);
+		values.add(9);
+		
+		Iterator<Integer> it = values.iterator();
+		while(it.hasNext()){
+			Integer value = it.next();
+			if(value == 3 || value == 4 || value == 5){
+				//values.remove(value);
+			}
+			
+			//it.next();
+		}
+		
+		for(Integer it : values){
+			if(it == 3 || it == 4 || it == 5){
+				values.remove(it);
+			}
+		}
+		
+		System.out.println(values.toString());*/
+		
+		System.out.println("89860615090031854408".compareTo("89860615090031854412"));
+		System.out.println("89860615090031856395".compareTo("89860615090031854412"));
 	}
 }

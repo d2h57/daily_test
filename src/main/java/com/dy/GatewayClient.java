@@ -13,6 +13,8 @@ import com.newsmy.android.car.jtt808.base.JTT808MessageBuilder;
 import com.newsmy.android.car.jtt808.base.JTT808MessageEncoder;
 import com.newsmy.android.car.jtt808.model.Authentication;
 import com.newsmy.android.car.jtt808.model.ClientEvent;
+import com.newsmy.android.car.jtt808.model.DeviceState;
+import com.newsmy.android.car.jtt808.model.LocationInfo;
 
 
 public class GatewayClient {
@@ -35,8 +37,9 @@ public class GatewayClient {
                 for (byte[] buffer : encoder.encode(message)) {
                     outputStream.write(buffer);
                 }
-                
-               builder.setMessageId(JTT808Define.JTT808_CLIENT_EVENT);
+               
+               //client event message
+               /*builder.setMessageId(JTT808Define.JTT808_CLIENT_EVENT);
                ClientEvent event = new ClientEvent();
                event.setEvent(ClientEvent.EVENT_CLIENT_SHOCK);
                event.setTime("160224103112");
@@ -44,10 +47,27 @@ public class GatewayClient {
                message = builder.build();
                for (byte[] buffer : encoder.encode(message)) {
                    outputStream.write(buffer);
+               }*/
+               
+               builder.setMessageId(JTT808Define.JTT808_CLIENT_LOCATION_UPLOAD);
+               LocationInfo location = new LocationInfo();
+               location.setLatitude(28152976);
+               location.setLongitude(11300124);
+               location.setSpeed(123);
+               DeviceState state = new DeviceState();
+               DeviceState.RunningState runningState = new DeviceState.RunningState();
+               runningState.running();
+               state.setState(runningState);
+               location.setDeviceState(state);
+               location.setTime("160315170145");
+               builder.setBody(location);
+               message = builder.build();
+               for (byte[] buffer : encoder.encode(message)) {
+                   outputStream.write(buffer);
                }
                
                try {
-                   Thread.sleep(60000);
+                   Thread.sleep(600);
                } catch (InterruptedException e) {
                    e.printStackTrace();
                }

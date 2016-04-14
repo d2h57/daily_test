@@ -11,6 +11,7 @@ import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Message;
+import cn.jpush.api.push.model.Options;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
@@ -25,7 +26,7 @@ public class JpushTest {
 	
 	public static boolean sendPush(String type,String alias,String device,String title,String MSG_CONTENT){
 		JPushClient jpushClient = new JPushClient(masterSecret, appKey, 3);
-        
+	
         // For push, all you need do is to build PushPayload object.
         
         PushPayload payload = null;
@@ -53,6 +54,7 @@ public class JpushTest {
     public static PushPayload buildPushObject_all_alias_message(String alias,String device,String MSG_CONTENT) {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.all())
+                .setOptions(Options.newBuilder().setApnsProduction(false).build())
                 .setAudience(Audience.alias(alias))
                 .setMessage(Message.newBuilder()
                         .setMsgContent(MSG_CONTENT)
@@ -63,10 +65,10 @@ public class JpushTest {
     }   
     //alias：账号名 ，device：设备名称，title：提示标题， MSG_CONTENT：内容
     public static PushPayload buildPushObject_all_alias_alert(String alias,String device,String title,String MSG_CONTENT) {//通知提醒
-    	
         return PushPayload.newBuilder()
         		.setPlatform(Platform.all())
                 .setAudience(Audience.alias(alias))
+                .setOptions(Options.newBuilder().setApnsProduction(false).build())
                 .setNotification(Notification.newBuilder()
                         .setAlert(MSG_CONTENT)
                 		.addPlatformNotification(AndroidNotification.newBuilder()
@@ -90,9 +92,9 @@ public class JpushTest {
     
 	public static void main(String[] args) throws JSONException {        
         JSONObject info = new JSONObject();
-	    info.put("deviceId","newsmy_01");
+	    info.put("deviceId","newsmy_10");
 	    info.put("time","1456292999");
-	    info.put("streetAddress","湖南省长沙市长沙县泉塘街道漓湘东路2号");
+	    info.put("streetAddress","测试消息发送");
 		info.put("radius","1000");
 		info.put("event", "103");
 		
