@@ -18,9 +18,19 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
+import cn.jpush.api.report.MessagesResult;
+import cn.jpush.api.report.ReceivedsResult;
+import cn.jpush.api.report.ReportClient;
 
 
 public class JpushTest {
+
+	//钮家
+/*	private static final String appKey ="14b60266c85162d1d4293625";
+	
+	private static final String masterSecret = "f30101569432dc0f58bb4c05";*/
+	
+	//钮眼
 	private static final String appKey ="30d839c2f91a0e083277b938";
 	private static final String masterSecret = "b599a2a6fd99d17891e37ff9";
 	
@@ -54,7 +64,7 @@ public class JpushTest {
     public static PushPayload buildPushObject_all_alias_message(String alias,String device,String MSG_CONTENT) {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.all())
-                .setOptions(Options.newBuilder().setApnsProduction(false).build())
+//                .setOptions(Options.newBuilder().setApnsProduction(true).build())
                 .setAudience(Audience.alias(alias))
                 .setMessage(Message.newBuilder()
                         .setMsgContent(MSG_CONTENT)
@@ -68,18 +78,13 @@ public class JpushTest {
         return PushPayload.newBuilder()
         		.setPlatform(Platform.all())
                 .setAudience(Audience.alias(alias))
-                .setOptions(Options.newBuilder().setApnsProduction(false).build())
+//                .setOptions(Options.newBuilder().setApnsProduction(true).build())
                 .setNotification(Notification.newBuilder()
                         .setAlert(MSG_CONTENT)
                 		.addPlatformNotification(AndroidNotification.newBuilder()
-                				.setTitle(title)
-                				.addExtra("time", getSystemTime())
-                				.addExtra("device",device)
                 				.build())
                 		.addPlatformNotification(IosNotification.newBuilder()
                 				.incrBadge(1)
-                				.addExtra("time", getSystemTime())
-                				.addExtra("device",device)
                 				.build())
                 		.build())
                 .build();
@@ -90,20 +95,36 @@ public class JpushTest {
     	return df.format(new Date());
     }
     
-	public static void main(String[] args) throws JSONException {        
+    public static void reportReceiveds(String msgId) throws APIConnectionException, APIRequestException{
+    	JPushClient jpushClient = new JPushClient(masterSecret, appKey, 3);
+    	ReceivedsResult result = jpushClient.getReportReceiveds(msgId);
+    	System.out.println(result);
+    }
+    
+    
+    public static void getMessages(String msgId) throws APIConnectionException, APIRequestException{
+    	ReportClient client = new ReportClient(masterSecret, appKey);
+    	System.out.println(client.getMessages(msgId));
+    }
+    
+	public static void main(String[] args) throws Exception {        
         JSONObject info = new JSONObject();
 	    info.put("deviceId","newsmy_10");
-	    info.put("time","1456292999");
+	    info.put("time","160503072812");
 	    info.put("streetAddress","测试消息发送");
 		info.put("radius","1000");
-		info.put("event", "103");
+		info.put("event", "102");
 		
 		/*JSONObject info = new JSONObject();
-	    info.put("deviceId","newsmy_01");
-	    info.put("time","1456292999");
-		info.put("event", "101");*/
+	    info.put("deviceId","N800_0042");
+	    info.put("time","160427161532");
+		info.put("event", 101);
 		
-        sendPush("message","18229812080","","",info.toString());
+		sendPush("message","13637488987","","",info.toString());*/
+		
+		sendPush("message","18229812080","","",info.toString());
+		
+//		getMessages("789517812");
 	}
 }
 

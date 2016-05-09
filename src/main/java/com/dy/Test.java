@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.security.AccessController;
 import java.security.MessageDigest;
 import java.security.PrivilegedExceptionAction;
@@ -30,6 +31,8 @@ import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
 //import org.json.JSONObject;
+
+
 
 
 
@@ -172,9 +175,20 @@ public class Test {
 		}
 	}
 	
+	
+	static String byteArrayToString(byte[] in) {
+	    char out[] = new char[in.length * 2];
+	    String chars = "0123456789ABCDEF";
+	    for (int i = 0; i < in.length; i++) {
+	        out[i * 2] = chars.charAt((in[i] >> 4) & 15);
+	        out[i * 2 + 1] = chars.charAt(in[i] & 15);
+	    }
+	    return new String(out);
+	}
+	
 	public static void main(String[] args) throws Exception {
 		/*md5测试*/
-		/*String password = "Newsmy159357newsmy";
+		/*String password = "fang123";
         MessageDigest md5Digest = MessageDigest.getInstance("MD5");
         md5Digest.update(password.getBytes(), 0, password.length());
         String md5Pass = (new BigInteger(1, md5Digest.digest())).toString(16);
@@ -183,8 +197,10 @@ public class Test {
 		/*JSONObject测试*/
 		/*T t = new T();
 		t.setEvent((byte)101);
-		t.setTime("1234567890");
-		JSONObject content = (JSONObject)JSONObject.toJSON(t);
+		t.setTime(null);
+		System.out.println(JSONObject.toJSONString(t));*/
+		
+		/*JSONObject content = (JSONObject)JSONObject.toJSON(t);
 		System.out.println(content.toString());*/
 		
 		/*测试Thread能否更换Runnable*/
@@ -199,16 +215,37 @@ public class Test {
 		
 		//时间换算
 		/*Date date = new Date();
-		date.setTime(1460401260*1000L);
-		System.out.println(date.toString());
+		//date.setTime(1461203521*1000L);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		
+		if(cal.get(Calendar.DAY_OF_MONTH) >= 27){
+			cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) -1);
+		}else{
+			cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) -2);
+		}
+		
+		cal.set(Calendar.DAY_OF_MONTH, 27);*/
+		
+		
+		/*SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmmss");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(format.parse("160422145512"));
+		System.out.println(cal.get(Calendar.DAY_OF_WEEK));*/
+		
+		/*SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		df.setTimeZone(TimeZone.getTimeZone("GMT"));
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		format.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+		System.out.println(format.format(df.parse("2016-04-18T08:39:55.028Z")));*/
 		
 		//1430413200052
 		
-		Calendar cal = Calendar.getInstance();
+		/*Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR,2016);
 		cal.set(Calendar.MONTH, 3);
-		cal.set(Calendar.DATE, 12);
-		cal.set(Calendar.HOUR_OF_DAY,3);
+		cal.set(Calendar.DATE, 25);
+		cal.set(Calendar.HOUR_OF_DAY,13);
 		cal.set(Calendar.MINUTE,2);
 		cal.set(Calendar.SECOND,0);
 		System.out.println(cal.getTimeInMillis());*/
@@ -424,7 +461,121 @@ public class Test {
 		
 		System.out.println(values.toString());*/
 		
-		System.out.println("89860615090031854408".compareTo("89860615090031854412"));
-		System.out.println("89860615090031856395".compareTo("89860615090031854412"));
+		/*if(0 == CaptchaStore4SMS.instance().checkGettingCaptchaIfInvalid("18908464499")){
+			
+			CaptchaStore4SMS.instance().saveCaptcha("18908464499", "123456");
+			
+			int result = CaptchaStore4SMS.instance().checkGettingCaptchaIfInvalid("18908464499");
+			if(0 == result){
+				System.out.println("程序运行异常1");
+			}else{
+				System.out.println(result);
+			}
+			
+			
+			Thread.sleep(1*60*1000);
+			
+			boolean hasReceive = CaptchaStore4SMS.instance().hasReceiveCaptcha("18908464499");
+			if(hasReceive){
+				System.out.println("结果符合预期");
+			}else{
+				System.out.println("程序运行异常2");
+			}
+			
+			result = CaptchaStore4SMS.instance().checkGettingCaptchaIfInvalid("18908464499");
+			if(0 != result){
+				System.out.println(result);
+				System.out.println("程序运行异常2");
+			}else{
+				System.out.println("checkGettingCaptchaIfInvalid result"+result);
+				
+				result = CaptchaStore4SMS.instance().checkCaptcha4Account("18908464499", "11111");
+				if(0 == result){
+					System.out.println(result);
+					System.out.println("程序运行异常3");
+				}else{
+					System.out.println("checkCaptcha4Account result:"+result);
+				}
+				
+				result = CaptchaStore4SMS.instance().checkCaptcha4Account("18908464499", "123456");
+				if(0 != result){
+					System.out.println(result);
+					System.out.println("程序运行异常4");
+				}else{
+					System.out.println("验证码正确");
+				}
+				
+				
+				CaptchaStore4SMS.instance().saveCaptcha("18908464499", "234567");
+			}
+			
+		}else{
+			System.out.println("出错退出");
+		}*/
+	
+		
+		/*Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		Calendar lastRequestTime = Calendar.getInstance();
+		lastRequestTime.setTimeInMillis(1461560520208L);
+		
+		System.out.println("cal year:"+cal.get(Calendar.YEAR)+",month:"+cal.get(Calendar.MONTH)
+				+",day:"+cal.get(Calendar.DAY_OF_MONTH));
+		System.out.println("lastRequestTime year:"+lastRequestTime.get(Calendar.YEAR)+",month:"+lastRequestTime.get(Calendar.MONTH)
+				+",day:"+lastRequestTime.get(Calendar.DAY_OF_MONTH));
+		
+		if(cal.get(Calendar.YEAR) == lastRequestTime.get(Calendar.YEAR) 
+				&& cal.get(Calendar.MONTH) == lastRequestTime.get(Calendar.MONTH)
+				&& cal.get(Calendar.DAY_OF_MONTH) == lastRequestTime.get(Calendar.DAY_OF_MONTH)){
+			System.out.println("in the same day");
+		}else{
+			System.out.println("across day");
+		}*/
+		
+		/*if(Charset.forName("Unicode").newEncoder().canEncode(content)){
+			System.out.println("use Unicode");
+		}else if(Charset.forName("UTF-8").newEncoder().canEncode(content)){
+			System.out.println("use UTF-8");
+		}else if(Charset.forName("GBK").newEncoder().canEncode(content)){
+			System.out.println("use GBK");
+		}else if(Charset.forName("GB2312").newEncoder().canEncode(content)){
+			System.out.println("use GB2312");
+		}*/
+		
+		/*System.out.println("default encoding:"+System.getProperty("file.encoding"));  
+		
+		//测试各种编码
+		String content = "你好";
+		System.out.println("default:"+byteArrayToString(content.getBytes()));
+		System.out.println("gbk:"+byteArrayToString(content.getBytes(Charset.forName("GBK"))));
+		System.out.println("UTF-8:"+byteArrayToString(content.getBytes(Charset.forName("UTF-8"))));
+		System.out.println("UTF-16:"+byteArrayToString(content.getBytes(Charset.forName("UTF-16"))));
+		System.out.println("Unicode:"+byteArrayToString(content.getBytes(Charset.forName("Unicode"))));
+		
+		content = "ab";
+		System.out.println("default:"+byteArrayToString(content.getBytes()));
+		System.out.println("gbk:"+byteArrayToString(content.getBytes(Charset.forName("GBK"))));
+		System.out.println("UTF-8:"+byteArrayToString(content.getBytes(Charset.forName("UTF-8"))));
+		System.out.println("UTF-16:"+byteArrayToString(content.getBytes(Charset.forName("UTF-16"))));
+		System.out.println("Unicode:"+byteArrayToString(content.getBytes(Charset.forName("Unicode"))));*/
+		
+		/*SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		df.setTimeZone(TimeZone.getTimeZone("GMT"));
+		Date activatedDate = df.parse("2016-04-27T08:39:55.028Z");
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(activatedDate);
+		
+		if(cal.get(Calendar.DAY_OF_MONTH) <= 26){//如果当前是27号之前,账期开始时间是从上月27号开始
+			cal.add(Calendar.MONTH,-1);
+			cal.set(Calendar.DAY_OF_MONTH,27);
+		}else{//否则从当月27号开始
+			cal.set(Calendar.DAY_OF_MONTH,27);
+		}
+		
+		System.out.println(cal.getTime());*/
+        
+        
+        System.out.println(URLEncoder.encode("长沙", "utf8"));
 	}
 }
