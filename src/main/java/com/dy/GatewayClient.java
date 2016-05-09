@@ -29,7 +29,7 @@ public class GatewayClient {
                 JTT808MessageBuilder builder = new JTT808MessageBuilder();
                 builder.setMessageId(JTT808Define.JTT808_CLIENT_AUTHENTICATION_UPLOAD);
                 Authentication authentication = new Authentication();
-                authentication.setAuthenticationCode(/*"867910025587314"*//*"352584063075821"*/"A000004F250EEC"/*"008631111543011"*/);
+                authentication.setAuthenticationCode(/*"867910025587314"*//*"352584063075821"*//*"A000004F250EEC"*/"008631111543011");
 //                authentication.setAppVersion("123wiheqtiojqweiotoi");
                 builder.setBody(authentication);
                 JTT808Message message = builder.build();

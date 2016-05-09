@@ -188,11 +188,11 @@ public class Test {
 	
 	public static void main(String[] args) throws Exception {
 		/*md5测试*/
-		/*String password = "fang123";
+		String password = "123456";
         MessageDigest md5Digest = MessageDigest.getInstance("MD5");
         md5Digest.update(password.getBytes(), 0, password.length());
         String md5Pass = (new BigInteger(1, md5Digest.digest())).toString(16);
-        System.out.println(md5Pass);*/
+        System.out.println(md5Pass);
         
 		/*JSONObject测试*/
 		/*T t = new T();

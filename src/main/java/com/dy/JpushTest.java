@@ -122,7 +122,7 @@ public class JpushTest {
 		
 		sendPush("message","13637488987","","",info.toString());*/
 		
-		sendPush("message","18229812080","","",info.toString());
+		sendPush("message","13637488987","","",info.toString());
 		
 //		getMessages("789517812");
 	}
