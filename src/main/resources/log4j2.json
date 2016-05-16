@@ -1,0 +1,41 @@
+{
+  "configuration": {
+    "name": "Default",
+    "properties": {
+      "property": [
+        {
+          "name": "log-path",
+          "value": "logs"
+        },
+        {
+          "name": "archive",
+          "value": "${log-path}/archive"
+        }
+      ]
+    },
+    "appenders": {
+      "RollingFile": {
+        "name": "RollingFile-Appender",
+        "fileName": "${log-path}/daily_test.log",
+        "filePattern": "${archive}/daily_test.log.%d{yyyy-MM-dd-hh-mm}.gz",
+        "PatternLayout": {
+          "pattern": "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+        },
+        "Policies": {
+          "SizeBasedTriggeringPolicy": {
+            "size": "100MB"
+          }
+        },
+        "DefaultRolloverStrategy": {
+          "max": "30"
+        }
+      }
+    },
+    "loggers": {
+      "root": {
+        "level": "debug",
+        "appender-ref": {"ref": "RollingFile-Appender"}
+      }
+    }
+  }
+}

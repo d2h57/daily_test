@@ -44,7 +44,7 @@ import com.alibaba.fastjson.JSONObject;
 
 
 public class HttpRequestSend {
-	
+
 	public static void main(String[] args){
 		try{
 			//创建账号
@@ -120,7 +120,7 @@ public class HttpRequestSend {
 	        }*/
 	        
 	        
-	        CloseableHttpClient client = HttpClients.createDefault();  
+	        
 	        //中国天气网简单的天气,只有温度
 //	        HttpGet get = new HttpGet("http://www.weather.com.cn/data/sk/101250101.html");
 //	        HttpGet get = new HttpGet("http://www.weather.com.cn/data/cityinfo/101250101.html");
@@ -128,10 +128,18 @@ public class HttpRequestSend {
 	        //新浪天气只有温度,没有湿度,PM25
 //	        HttpGet get = new HttpGet("http://php.weather.sina.com.cn/xml.php?city=%b3%a4%c9%b3&password=DJOYnieT8234jlsK&day=0");
 	        
+			CloseableHttpClient client = HttpClients.createDefault();  
 	        //使用和天气,包含温度\湿度\PM25
-	        HttpGet get = new HttpGet("https://api.heweather.com/x3/weather?cityid=CN101250101&key=a0743e6c80f447f799cd3b393fb8f9b1");
+	        HttpGet get = new HttpGet("https://api.heweather.com/x3/weather?city=长沙&key=a0743e6c80f447f799cd3b393fb8f9b1");
+			
+//	        HttpGet get = new HttpGet("http://localhost:8080/security/misc/weather?city=%E9%95%BF%E6%B2%99&key=a0743e6c80f447f799cd3b393fb8f9b1");
+			
+			
+//			HttpGet get = new HttpGet("http://localhost:8080/track/api/sendMessage.jsp?imei_number=1111111&command=send_text&message=你好&from=13910652136");
+			
+//			HttpGet get = new HttpGet("http://localhost:8080/track/api/sendMessage.jsp?device_id=N800_0131&command=send_message&account_id=13319520627&imei_number=351565029001309&message_type=32&message=%7B%22poi%22%3A%22%E6%B9%96%E5%8D%97%E7%9C%81%E9%95%BF%E6%B2%99%E5%B8%82%E9%95%BF%E6%B2%99%E5%8E%BF%E6%98%9F%E6%B2%99%E8%A1%97%E9%81%93%E9%95%BF%E6%B2%99%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%22%2C%22longtitude%22%3A%22113.081764%22%2C%22latitude%22%3A%2228.255553%22%7D");
 	        
-	        	try {  
+	        	try {
 		            CloseableHttpResponse res = client.execute(get);  
 		            if(res.getStatusLine().getStatusCode() == HttpStatus.SC_OK){  
 		               System.out.println("response:"+EntityUtils.toString(res.getEntity(),Charset.forName("utf-8"))); 
@@ -144,7 +152,7 @@ public class HttpRequestSend {
 		        }finally{
 		        	//client.close();
 		        }
-	        
+	            
 	        //https双向验证
 	        /*KeyStore trustStore  = KeyStore.getInstance(KeyStore.getDefaultType());
 		    //加载信任证书文件

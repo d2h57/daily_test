@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -37,9 +38,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 
+
+
 import javax.swing.Box.Filler;
 
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dy.service.IAction;
@@ -188,11 +193,11 @@ public class Test {
 	
 	public static void main(String[] args) throws Exception {
 		/*md5测试*/
-		String password = "123456";
+		/*String password = "123456";
         MessageDigest md5Digest = MessageDigest.getInstance("MD5");
         md5Digest.update(password.getBytes(), 0, password.length());
         String md5Pass = (new BigInteger(1, md5Digest.digest())).toString(16);
-        System.out.println(md5Pass);
+        System.out.println(md5Pass);*/
         
 		/*JSONObject测试*/
 		/*T t = new T();
@@ -213,9 +218,11 @@ public class Test {
 		
 		/*System.out.println(System.currentTimeMillis());*/
 		
+		/*Date date = new Date(1462875544*1000L);
+		System.out.println(date);*/
+		
 		//时间换算
 		/*Date date = new Date();
-		//date.setTime(1461203521*1000L);
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		
@@ -243,9 +250,9 @@ public class Test {
 		
 		/*Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR,2016);
-		cal.set(Calendar.MONTH, 3);
-		cal.set(Calendar.DATE, 25);
-		cal.set(Calendar.HOUR_OF_DAY,13);
+		cal.set(Calendar.MONTH, 4);
+		cal.set(Calendar.DATE, 10);
+		cal.set(Calendar.HOUR_OF_DAY,7);
 		cal.set(Calendar.MINUTE,2);
 		cal.set(Calendar.SECOND,0);
 		System.out.println(cal.getTimeInMillis());*/
@@ -532,27 +539,51 @@ public class Test {
 			System.out.println("across day");
 		}*/
 		
+		
+		
+//		System.out.println("default encoding:"+System.getProperty("file.encoding"));  
+		
+		//测试各种编码
+		/*String content = "你好";
+		for(int i=0;i<content.length();++i){
+			System.out.println((int)content.charAt(i));
+		}
+		
+		byte[] bytes = content.getBytes("ISO-8859-1");
+		System.out.println("bytes length:"+bytes.length);*/
+		
+
 		/*if(Charset.forName("Unicode").newEncoder().canEncode(content)){
 			System.out.println("use Unicode");
-		}else if(Charset.forName("UTF-8").newEncoder().canEncode(content)){
+		}
+		
+		if(Charset.forName("UTF-8").newEncoder().canEncode(content)){
 			System.out.println("use UTF-8");
-		}else if(Charset.forName("GBK").newEncoder().canEncode(content)){
+		}
+		
+		if(Charset.forName("GBK").newEncoder().canEncode(content)){
 			System.out.println("use GBK");
-		}else if(Charset.forName("GB2312").newEncoder().canEncode(content)){
+		}
+		
+		if(Charset.forName("GB2312").newEncoder().canEncode(content)){
 			System.out.println("use GB2312");
 		}*/
 		
-		/*System.out.println("default encoding:"+System.getProperty("file.encoding"));  
-		
-		//测试各种编码
-		String content = "你好";
-		System.out.println("default:"+byteArrayToString(content.getBytes()));
+		/*System.out.println("default:"+byteArrayToString(content.getBytes()));
 		System.out.println("gbk:"+byteArrayToString(content.getBytes(Charset.forName("GBK"))));
 		System.out.println("UTF-8:"+byteArrayToString(content.getBytes(Charset.forName("UTF-8"))));
 		System.out.println("UTF-16:"+byteArrayToString(content.getBytes(Charset.forName("UTF-16"))));
-		System.out.println("Unicode:"+byteArrayToString(content.getBytes(Charset.forName("Unicode"))));
+		System.out.println("Unicode:"+byteArrayToString(content.getBytes(Charset.forName("Unicode"))));*/
 		
-		content = "ab";
+		
+		/*System.out.println("default:"+byteArrayToString(content.getBytes()));
+		System.out.println("ISO-8859-1:"+byteArrayToString(content.getBytes("ISO-8859-1")));
+		System.out.println("gbk:"+byteArrayToString(content.getBytes("GBK")));
+		System.out.println("UTF-8:"+byteArrayToString(content.getBytes("UTF-8")));
+		System.out.println("UTF-16:"+byteArrayToString(content.getBytes("UTF-16")));
+		System.out.println("Unicode:"+byteArrayToString(content.getBytes("Unicode")));*/
+		
+		/*content = "ab";
 		System.out.println("default:"+byteArrayToString(content.getBytes()));
 		System.out.println("gbk:"+byteArrayToString(content.getBytes(Charset.forName("GBK"))));
 		System.out.println("UTF-8:"+byteArrayToString(content.getBytes(Charset.forName("UTF-8"))));
@@ -576,6 +607,25 @@ public class Test {
 		System.out.println(cal.getTime());*/
         
         
-        System.out.println(URLEncoder.encode("长沙", "utf8"));
+//        System.out.println(URLEncoder.encode("你好", "ISO-8859-1"));
+        
+        /*String value = URLDecoder.decode("%E4%BD%A0%E5%A5%BD", "ISO-8859-1");
+        System.out.println(value);
+        
+        for(int i=0;i<value.length();++i){
+        	System.out.println((int)value.charAt(i));
+        }
+        
+        String temp = new String("你好".getBytes("UTF-8"),"ISO-8859-1");
+        System.out.println(temp);
+        
+        value = URLDecoder.decode("%E4%BD%A0%E5%A5%BD", "UTF-8");
+        for(int i=0;i<value.length();++i){
+        	System.out.println((int)value.charAt(i));
+        }
+        System.out.println(value);*/
+		
+		Logger logger = LoggerFactory.getLogger(Test.class);
+		logger.debug("测试log4j2日志库");
 	}
 }
